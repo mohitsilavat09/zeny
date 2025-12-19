@@ -48,7 +48,7 @@ export default function App() {
         placeholder="Ask something..."
         style={{ width: "80%", padding: 8 }}
       />
-      <button onClick={sendMessage} style={{ padding: 8 }}>Send</button>
+      <button onClick={sendMessage} style={{ padding: 8 }}>⬆️</button>
     </div>
   );
 }
