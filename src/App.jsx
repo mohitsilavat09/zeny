@@ -1,6 +1,15 @@
 import { useState } from "react";
 
-export default function App() {
+export default function App(background+state)const backgrounds = [
+  { name: "Dark", value: "#0f172a" },
+  { name: "Midnight", value: "#020617" },
+  { name: "Ocean", value: "linear-gradient(135deg,#0ea5e9,#1e3a8a)" },
+  { name: "Sunset", value: "linear-gradient(135deg,#f97316,#be123c)" },
+  { name: "Forest", value: "linear-gradient(135deg,#166534,#052e16)" }
+];
+
+const [bg, setBg] = useState(backgrounds[0].value);
+ {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
