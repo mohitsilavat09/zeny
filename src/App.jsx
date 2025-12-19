@@ -42,7 +42,15 @@ const [bg, setBg] = useState(backgrounds[0].value);
   }
 
   return (
-    <div style={{ padding: 20, fontFamily: "Arial" }}>
+   ><div
+  className="chat"
+  style={{
+    background: bg,
+    padding: 20,
+    fontFamily: "Arial",
+    minHeight: "100vh"
+  }}
+>
       <h2>🤖 My AI Assistant</h2>
       <div style={{ minHeight: 300, border: "1px solid #ccc", padding: 10 }}>
         {messages.map((m, i) => (
