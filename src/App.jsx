@@ -1,71 +1,65 @@
 import { useState } from "react";
 
-export default function App(background+state)const backgrounds = [
-  { name: "Dark", value: "#0f172a" },
-  { name: "Midnight", value: "#020617" },
-  { name: "Ocean", value: "linear-gradient(135deg,#0ea5e9,#1e3a8a)" },
-  { name: "Sunset", value: "linear-gradient(135deg,#f97316,#be123c)" },
-  { name: "Forest", value: "linear-gradient(135deg,#166534,#052e16)" }
-];
+export default function App() {
+  const backgrounds = [
+    { name: "Dark", value: "#0f172a" },
+    { name: "Midnight", value: "#020617" },
+    { name: "Ocean", value: "linear-gradient(135deg,#0ea5e9,#1e3a8a)" },
+    { name: "Sunset", value: "linear-gradient(135deg,#f97316,#be123c)" },
+    { name: "Forest", value: "linear-gradient(135deg,#166534,#052e16)" }
+  ];
 
-const [bg, setBg] = useState(backgrounds[0].value);
- {
+  const [bg, setBg] = useState(backgrounds[0].value);
+  const [messages, setMessages] = useState([
+    { role: "assistant", content: "Hi 👋 I am wizy AI" }
+  ]);
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  async function sendMessage() {
-    if (!input) return;
-
-    const userMsg = { role: "user", content: input };
-    setMessages([...messages, userMsg]);
-    setInput("");
-    setLoading(true);
-
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${import.meta.env.VITE_OPENAI_KEY}`
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [...messages, userMsg]
-      })
-    });
-
-    const data = await res.json();
-    const aiMsg = data.choices[0].message;
-
-    setMessages(prev => [...prev, aiMsg]);
-    setLoading(false);
-  }
 
   return (
-   ><div
-  className="chat"
-  style={{
-    background: bg,
-    padding: 20,
-    fontFamily: "Arial",
-    minHeight: "100vh"
-  }}
->
-      <h2>🤖 My AI Assistant</h2>
-      <div style={{ minHeight: 300, border: "1px solid #ccc", padding: 10 }}>
-        {messages.map((m, i) => (
-          <p key={i}><b>{m.role}:</b> {m.content}</p>
+    <div
+      className="chat"
+      style={{ background: bg, padding: 20, minHeight: "100vh" }}
+    >
+      <header>wizy AI</header>
+
+      {/* Background Picker */}
+      <div className="bg-picker">
+        {backgrounds.map((b, i) => (
+          <button
+            key={i}
+            title={b.name}
+            onClick={() => setBg(b.value)}
+            style={{ background: b.value }}
+          />
         ))}
-        {loading && <p>AI is thinking...</p>}
       </div>
 
-      <input
-        value={input}
-        onChange={e => setInput(e.target.value)}
-        placeholder="Ask something..."
-        style={{ width: "80%", padding: 8 }}
-      />
-      <button onClick={sendMessage} style={{ padding: 8 }}>⬆️</button>
+      {/* Messages */}
+      <div className="messages">
+        {messages.map((m, i) => (
+          <div key={i} className={m.role}>
+            {m.content}
+          </div>
+        ))}
+      </div>
+
+      {/* Input */}
+      <div className="input">
+        <input
+          placeholder="Type your message..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button
+          onClick={() => {
+            if (!input.trim()) return;
+            setMessages([...messages, { role: "user", content: input }]);
+            setInput("");
+          }}
+        >
+          Send
+        </button>
+      </div>
     </div>
   );
 }
